@@ -1,3 +1,4 @@
+"use strict";
 /*
   =========================
   ParadigmCore (developent)
@@ -8,17 +9,16 @@
   @author Henry Harder
   Logger class for pretty outputs on the server console.
 */
-
-export class Logger {
-    public static logOrder(orderID: string): void {
+Object.defineProperty(exports, "__esModule", { value: true });
+class Logger {
+    static logOrder(orderID) {
         console.log(`[PC-Mongo LOG: New Order @ ${new Date().toLocaleString()}] ID: ${orderID}`);
     }
-
-    public static logError(error: string): void {
+    static logError(error) {
         console.log(`[PC-Mongo LOG: Error @ ${new Date().toLocaleString()}] Error: ${error}`);
     }
-
-    public static logEvent(message: string): void {
+    static logEvent(message) {
         console.log(`[PC-Mongo LOG: Event @ ${new Date().toLocaleString()}] Event: ${message}`);
     }
 }
+exports.Logger = Logger;

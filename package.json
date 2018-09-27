@@ -4,7 +4,10 @@
   "description": "Simple Node.js add-on to subscribe to OrderStream and insert orders into a MongoDB server. Also provides simple query API via HTTP.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./dist/server.js",
+    "build": "tsc",
+    "go": "tsc && node ./dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,8 @@
   },
   "homepage": "https://github.com/ParadigmFoundation/ParadigmMongo#readme",
   "dependencies": {
+    "@types/mongodb": "^3.1.9",
+    "bluebird": "^3.5.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "http": "0.0.0",

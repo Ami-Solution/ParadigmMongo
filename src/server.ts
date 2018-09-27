@@ -10,20 +10,19 @@
   TypeScript implementation of the ParadigmCore RPC Server (using async functions).
 */
 
+import * as _mdb from "mongodb";
 import * as express from "express";
 import * as http from "http";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
+import * as WebSocket from "ws";
 
-import * as _mdb from "mongodb";
 import * as API_DATA from "./api.json";
-import { Message } from "./Message";
 import * as config from "./config";
-import { Logger } from "./Logger"
 
-// Comment out/remove the following lines if compression is enabled by reverse proxy
-// import * as compression from "compression";
-// app.use(compression());
+import { Logger } from "./Logger"
+import { Message } from "./Message";
+import { Writer } from "./Writer";
 
 var mc = _mdb.MongoClient;
 var app: express.Express = express();
@@ -34,6 +33,7 @@ app.use(cors());
 
 var client;
 var db;
+let ws;
 
 // Root endpoint, provides version data and API endpoint info
 app.get('/', async (_, res) => {
@@ -58,7 +58,7 @@ app.get('/api/all', async (_, res) => {
 // Returns a single order by OrderID
 app.get('/api/order/:id', async (req, res) => {
     try {
-        const docs = await db.collection('assets').find({
+        const docs = await db.collection('orders').find({
             "id":req.params.id}).toArray();
         if(docs.length != 0) {
             res.send(docs);
@@ -70,25 +70,11 @@ app.get('/api/order/:id', async (req, res) => {
     }
 });
 
-// Returns metadata for single order by OrderID
-app.get('/api/metadata/:id', async (req, res) => {
-    try {
-        const docs = await db.collection('metadata').find({
-            "id":req.params.id}).toArray();
-        if(docs.length != 0) {
-            res.send(docs);
-        } else {
-            Message.staticSendError(res, "No orders found with specified ID.", 404);
-        }
-    } catch (error) {
-        Message.staticSendError(res, "Error retrieving data. Check request and try again.", 404);
-    }
-});
 
 // Returns all orders for specified SubContract address
 app.get('/api/subcontract/:address', async (req, res) => {
     try {
-        const docs = await db.collection('assets').find({
+        const docs = await db.collection('orders').find({
             "data.subContract":req.params.address}).toArray();
         if(docs.length != 0) {
             res.send(docs);
@@ -103,7 +89,7 @@ app.get('/api/subcontract/:address', async (req, res) => {
 // Returns all orders from specified maker address
 app.get('/api/maker/:address', async (req, res) => {
     try {
-        const docs = await db.collection('assets').find({
+        const docs = await db.collection('orders').find({
             "data.maker":req.params.address}).toArray();
         if(docs.length != 0) {
             res.send(docs);
@@ -118,10 +104,6 @@ app.get('/api/maker/:address', async (req, res) => {
 // Begin bad request handler functions
 // Responds with errors for impropper request formats for given endpoint
 app.get('/api/order', async (_, res) => {
-    Message.staticSendError(res, "Missing required 'ID' parameter.", 400);
-});
-
-app.get('/api/metadata', async (_, res) => {
     Message.staticSendError(res, "Missing required 'ID' parameter.", 400);
 });
 
@@ -149,15 +131,6 @@ app.post('/api/order/:id', async (_, res) => {
     Message.staticSendError(res, "Impropper request format 'POST' for /api/order endpoint.", 400);
 });
 
-app.post('/api/metadata', async (_, res) => {
-    Message.staticSendError(res, "Impropper request format 'POST' for /api/metadata endpoint.", 400);
-
-});
-
-app.post('/api/metadata/:id', async (_, res) => {
-    Message.staticSendError(res, "Impropper request format 'POST' for /api/metadata endpoint.", 400);
-});
-
 app.post('/api/maker', async (_, res) => {
     Message.staticSendError(res, "Impropper request format 'POST' for /api/maker endpoint.", 400);
 });
@@ -180,8 +153,10 @@ app.use((_, res) => {
     Message.staticSendError(res, "Invalid endpoint. Check request and try again.", 404);
 });
 
+connect();
+
 // Main function to connect to MongoDB backend
-var connect = async () => {
+async function connect() {
     try {
         client = await mc.connect(config.MDB_API_URI, {useNewUrlParser: true});
         db = client.db(config.DB_NAME);
@@ -195,4 +170,30 @@ var connect = async () => {
     }
 }
 
-connect();
+let writer = new Writer({
+    dbURI: config.MDB_API_URI,
+    dbName: config.DB_NAME,
+    dbColl: config.DB_COL
+});
+
+try {
+    ws = new WebSocket(config.WS_URI);
+    Logger.logEvent("Connected to WebSocket server.")
+} catch (error) {
+    Logger.logError("Error connecting to WebSocket server.")
+}
+
+ws.on('message', (data) => {
+    try {
+        let dataObj = JSON.parse(data);
+        if(dataObj.event === "order") {
+            writer.insertOrder(dataObj);
+            Logger.logEvent("Added new order to DB");
+        } else {
+            Logger.logEvent("Skipping 'message' event");
+        }
+    }
+    catch (error) {
+        Logger.logError("Failed to add order to DB.");
+    }
+});
