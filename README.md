@@ -1,4 +1,7 @@
 # ParadigmMongo
+![Status](https://img.shields.io/badge/status-beta-orange.svg) ![Version](https://img.shields.io/badge/version-0.0.1a1-brightgreen.svg)
+[![AUR](https://img.shields.io/aur/license/yaourt.svg)](./LICENSE) [![Chat Server](https://img.shields.io/badge/chat%20server-join!-red.svg)](https://chat.paradigm.market/)
+
 Simple Node.js add-on to subscribe to OrderStream and insert orders into a MongoDB server. Also provides simple query API via HTTP.
 
 ## Prerequisites
@@ -43,5 +46,5 @@ http://localhost:4244/api
 ```
 
 ## In Production
-If running in production, you should make sure your node is hardened (always do this), and then proxy the query API behind reverse-proxy or webserver to expose the API to the public. 
+If running in production, you should make sure your node is hardened (always do this), and then proxy the query API behind reverse-proxy or webserver to expose the API to the public.
 
