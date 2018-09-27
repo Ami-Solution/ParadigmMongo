@@ -1,0 +1,31 @@
+{
+    "api": {
+        "all": {
+            "endpoint": "/api/all",
+            "method": "GET",
+            "description": "Lists all orders on the network."
+        },
+        "order": {
+            "endpoint": "/api/order/{id}",
+            "method": "GET",
+            "description": "Returns the order specified by the 'ID' parameter."
+        },
+        "subcontract":{
+            "endpoint": "/api/subcontract/{address}",
+            "method": "GET",
+            "description": "Returns all orders made for the subContract specified by the 'address' parameter."
+        },
+        "maker":{
+            "endpoint": "/api/maker/{address}",
+            "method": "GET",
+            "description": "Returns all orders made by the maker specified by the 'address' parameter."
+        }
+    },
+    "docs": "https://docs.paradigm.market/paradigmmongo/latest",
+    "software": "ParadigmMongo",
+    "version": {
+        "number": "0.0.0a1",
+        "status": "alpha",
+        "date": "Mon Aug 27 2018 22:09:57 GMT-0400"
+    }
+}
