@@ -59,7 +59,7 @@ app.get('/api/all', async (_, res) => {
 app.get('/api/order/:id', async (req, res) => {
     try {
         const docs = await db.collection(config.DB_COL).find({
-            "id":req.params.id}).toArray();
+            "data.id":req.params.id}).toArray();
         if(docs.length != 0) {
             res.send(docs);
         } else {
