@@ -1,6 +1,6 @@
 /*
   =========================
-  ParadigmCore (developent)
+  ParadigmMongo (developent)
   config.ts @ {master}
   =========================
   @date_inital 16 July 2018

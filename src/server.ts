@@ -48,7 +48,7 @@ app.get('/api', async (_, res) => {
 // Returns all orders on OrderStream
 app.get('/api/all', async (_, res) => {
     try {
-        const docs = await db.collection('assets').find({}).toArray();
+        const docs = await db.collection(config.DB_COL).find({}).toArray();
         res.send(docs);
     } catch (error) {
         Message.staticSendError(res, "Error retrieving data. Check request and try again.", 500);
@@ -58,7 +58,7 @@ app.get('/api/all', async (_, res) => {
 // Returns a single order by OrderID
 app.get('/api/order/:id', async (req, res) => {
     try {
-        const docs = await db.collection('orders').find({
+        const docs = await db.collection(config.DB_COL).find({
             "id":req.params.id}).toArray();
         if(docs.length != 0) {
             res.send(docs);
@@ -74,7 +74,7 @@ app.get('/api/order/:id', async (req, res) => {
 // Returns all orders for specified SubContract address
 app.get('/api/subcontract/:address', async (req, res) => {
     try {
-        const docs = await db.collection('orders').find({
+        const docs = await db.collection(config.DB_COL).find({
             "data.subContract":req.params.address}).toArray();
         if(docs.length != 0) {
             res.send(docs);
@@ -89,7 +89,7 @@ app.get('/api/subcontract/:address', async (req, res) => {
 // Returns all orders from specified maker address
 app.get('/api/maker/:address', async (req, res) => {
     try {
-        const docs = await db.collection('orders').find({
+        const docs = await db.collection(config.DB_COL).find({
             "data.maker":req.params.address}).toArray();
         if(docs.length != 0) {
             res.send(docs);
