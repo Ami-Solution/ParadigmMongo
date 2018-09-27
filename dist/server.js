@@ -171,7 +171,9 @@ ws.on('message', (data) => {
     try {
         let dataObj = JSON.parse(data);
         if (dataObj.event === "order") {
-            writer.insertOrder(dataObj);
+            writer.insertOrder(dataObj).catch(_ => {
+                Logger_1.Logger.logError("Error inserting order into DB.");
+            });
             Logger_1.Logger.logEvent("Added new order to DB");
         }
         else {
