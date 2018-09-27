@@ -38,9 +38,9 @@ class Writer {
     }
     async insertOrder(order) {
         try {
-            console.log('Trying to insert to DB');
             let result = await this.coll.insertOne(order);
-            console.log("Result (in insertOrder()): " + result);
+            if (result.ok != 1)
+                throw new Error();
         }
         catch (error) {
             throw new Error("Error inserting order to DB");

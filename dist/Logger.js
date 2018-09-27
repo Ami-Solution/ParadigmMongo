@@ -1,7 +1,7 @@
 "use strict";
 /*
   =========================
-  ParadigmCore (developent)
+  ParadigmMongo (developent)
   Logger.ts @ {master}
   =========================
   @date_inital 22 August 2018

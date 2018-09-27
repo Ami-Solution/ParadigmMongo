@@ -1,7 +1,7 @@
 "use strict";
 /*
   =========================
-  ParadigmCore (developent)
+  ParadigmMongo (developent)
   Message.ts @ {master}
   =========================
   @date_inital 19 August 2018
