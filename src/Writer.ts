@@ -51,7 +51,7 @@ export class Writer {
         try {
             let result = await this.coll.insertOne(order);
             if (result.ok != 1) {
-                console.log(result);
+                console.log("result: " + result);
                 throw new Error(result);
             }
         } catch (error) {
