@@ -50,7 +50,10 @@ export class Writer {
     public async insertOrder(order: object) {
         try {
             let result = await this.coll.insertOne(order);
-            if (result.ok != 1) throw new Error();
+            if (result.ok != 1) {
+                console.log(result);
+                throw new Error(result);
+            }
         } catch (error) {
             throw new Error("Error inserting order to DB");
         }      
