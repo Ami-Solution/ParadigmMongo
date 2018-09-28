@@ -50,7 +50,7 @@ export class Writer {
     public async insertOrder(order: object) {
         try {
             let result = await this.coll.insertOne(order);
-            if (result.ok != 1) {
+            if (JSON.parse(result).ok != 1) {
                 console.log("result: " + result);
                 throw new Error(result);
             }

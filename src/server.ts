@@ -190,7 +190,7 @@ ws.on('message', (data) => {
             writer.insertOrder(dataObj).then(_ => {
                 Logger.logEvent("Added new order to DB");
             }).catch(_ => {
-                Logger.logError("Error inserting order into DB.")
+                Logger.logError("Caught: Error inserting order into DB.")
             });
             
         } else {
