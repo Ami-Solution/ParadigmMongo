@@ -30,7 +30,6 @@ export class Writer {
             this.coll = this.db.collection(this.dbColl);
             setTimeout(Logger.logEvent, 2000, 'Connected to DB for writing.');
         } catch (error) {
-            console.log("in connect(): " + error);
             throw new Error("Error connecting to DB.");
         }
     }
@@ -41,7 +40,7 @@ export class Writer {
         this.dbColl = options.dbColl;
 
         try {
-            this.connect().catch(err => { console.log("from connect: "+err) });
+            this.connect().catch(err => { throw new Error(err) });
         } catch (error) {
             throw new Error("Error connecting to DB.");
         }
@@ -51,8 +50,7 @@ export class Writer {
         try {
             let result = JSON.parse(await this.coll.insertOne(order));
             if (result.ok != 1) {
-                console.log("result: " + result);
-                throw new Error(result);
+                throw new Error();
             }
         } catch (error) {
             throw new Error("Error inserting order to DB");
