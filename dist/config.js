@@ -12,8 +12,8 @@
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 // Incoming OrderStream WebSocket URI
-exports.WS_URI = 'ws://localhost:4242';
-//export const WS_URI: string = 'wss://bs1.paradigm.market/stream';
+//exports.WS_URI = 'ws://localhost:4242';
+exports.WS_URI = 'wss://bs1.paradigm.market/stream';
 // Database backend URI
 exports.MDB_API_URI = 'mongodb://localhost:27017';
 // Databse name

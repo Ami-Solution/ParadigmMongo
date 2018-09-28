@@ -23,6 +23,7 @@ class Writer {
                 setTimeout(Logger_1.Logger.logEvent, 2000, 'Connected to DB for writing.');
             }
             catch (error) {
+                console.log(error)
                 throw new Error("Error connecting to DB.");
             }
         };
@@ -30,7 +31,7 @@ class Writer {
         this.dbName = options.dbName;
         this.dbColl = options.dbColl;
         try {
-            this.connect();
+            this.connect().catch(err => {console.log(err)});
         }
         catch (error) {
             throw new Error("Error connecting to DB.");
