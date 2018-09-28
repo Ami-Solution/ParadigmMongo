@@ -11,8 +11,8 @@
 */
 
 // Incoming OrderStream WebSocket URI
-export const WS_URI: string = 'ws://localhost:4242';
-//export const WS_URI: string = 'wss://bs1.paradigm.market/stream';
+// export const WS_URI: string = 'ws://localhost:4242';
+export const WS_URI: string = 'wss://bs1.paradigm.market/stream';
 
 // Database backend URI
 export const MDB_API_URI: string = 'mongodb://localhost:27017';
