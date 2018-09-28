@@ -8,8 +8,7 @@ Simple Node.js add-on to subscribe to OrderStream and insert orders into a Mongo
 This application is intended as an optional add-on interface for [ParadigmCore](https://github.com/paradigmfoundation/paradigmcore) that connects to the event-stream output of an OrderStream node, and adds orders to a MongoDB database. This program also provides a query API.
 
 - Must run on an OrderStream node
-    - Full validator with `tendermint`
-    - Recent version of ParadigmCore
+    - Or have access to a WS stream from a node
 - Must have MongoDB server running:
     - `mongod` must be running on `27017`, or adjust `config`
 - OS Node must be broadcasting on default port `4242` (or the `config` must be adjusted.)
