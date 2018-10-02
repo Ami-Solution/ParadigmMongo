@@ -12,7 +12,6 @@
 
 import { MongoClient } from "mongodb";
 import { Logger } from "./Logger";
-import { MDB_API_URI, DB_NAME } from "./config";
 
 export class Writer {
     private dbURI: string; // MongoDB RPC URL
